@@ -166,9 +166,10 @@
     }
 
     function interpretacao(score) {
-      if (score <= 4) return {nivel: 'Baixo Risco', classe: 'baixo', acao: 'Monitorar e reavaliar periodicamente.'};
-      if (score >= 5 && score <= 6) return {nivel: 'Risco Moderado', classe: 'moderado', acao: 'Avisar médico, monitorar de perto e avaliar possíveis intervenções.'};
-      if (score >= 7) return {nivel: 'Alto Risco', classe: 'alto', acao: 'Acionar equipe médica imediata, possível transferência para unidade de maior complexidade.'};
+      if (score = 0) return {nivel: 'Baixo Risco', classe: 'baixo', acao: 'Continuar com monitoramento periódico.'};
+      if (score >= 1 && score <= 4) return {nivel: 'Risco Moderado', classe: 'moderado', acao: 'Informar ao enfermeiro e aumentar a frequência de monitoramento.'};
+      if (score >= 5 && score <= 6) return {nivel: 'Risco Alto', classe: 'alto', acao: 'Avisar médico, monitorar de perto e avaliar possíveis intervenções.'};
+      if (score >= 7) return {nivel: 'Risco Elevado', classe: 'elevado', acao: 'Acionar equipe médica imediata, possível transferência para unidade de maior complexidade.'};
     }
 
     document.getElementById('calcular').addEventListener('click', () => {
