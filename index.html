@@ -159,10 +159,10 @@
 
     function pontuarTemp(temp) {
       if (temp <= 35) return 3;
-      if (temp >= 35.1 && temp <= 36) return 1;
-      if (temp >= 36.1 && temp <= 38) return 0;
-      if (temp >= 38.1 && temp <= 39) return 1;
-      if (temp >= 39.1) return 2;
+      if (temp > 35 && temp <= 36) return 1;
+      if (temp > 36 && temp <= 38) return 0;
+      if (temp > 38 && temp <= 39) return 1;
+      if (temp > 39) return 2;
       return 0;
     }
 
@@ -171,6 +171,7 @@
       if (score >= 1 && score <= 4) return {nivel: 'Risco Moderado', classe: 'moderado', acao: 'Informar ao enfermeiro e aumentar a frequência de monitoramento.'};
       if (score >= 5 && score <= 6) return {nivel: 'Risco Alto', classe: 'alto', acao: 'Avisar médico, monitorar de perto e avaliar possíveis intervenções.'};
       if (score >= 7) return {nivel: 'Risco Elevado', classe: 'elevado', acao: 'Acionar equipe médica imediata, possível transferência para unidade de maior complexidade.'};
+      return {nivel: 'Desconhecido', classe: '', acao: ''};
     }
 
     document.getElementById('calcular').addEventListener('click', () => {
@@ -180,7 +181,7 @@
       const fc = parseFloat(document.getElementById('fc').value);
       const temp = parseFloat(document.getElementById('temp').value);
 
-      if (isNaN(fr) || isNaN(spo2) || isNaN(pas) || isNaN(fc) || isNaN(temp)) {
+      if ([fr, spo2, pas, fc, temp].some(v => isNaN(v))) {
         alert('Preencha todos os campos.');
         return;
       }
