@@ -68,9 +68,10 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
       text-align: center;
     }
-    .baixo { color: green; }
-    .moderado { color: orange; }
-    .alto { color: red; }
+    .baixo { color: green; font-weight: bold; }
+    .moderado { color: orange; font-weight: bold; }
+    .alto { color: red; font-weight: bold; }
+    .elevado { color: darkred; font-weight: bold; }
     footer {
       margin-top: 30px;
       font-size: 0.85em;
@@ -166,7 +167,7 @@
     }
 
     function interpretacao(score) {
-      if (score = 0) return {nivel: 'Baixo Risco', classe: 'baixo', acao: 'Continuar com monitoramento periódico.'};
+      if (score === 0) return {nivel: 'Baixo Risco', classe: 'baixo', acao: 'Continuar com monitoramento periódico.'};
       if (score >= 1 && score <= 4) return {nivel: 'Risco Moderado', classe: 'moderado', acao: 'Informar ao enfermeiro e aumentar a frequência de monitoramento.'};
       if (score >= 5 && score <= 6) return {nivel: 'Risco Alto', classe: 'alto', acao: 'Avisar médico, monitorar de perto e avaliar possíveis intervenções.'};
       if (score >= 7) return {nivel: 'Risco Elevado', classe: 'elevado', acao: 'Acionar equipe médica imediata, possível transferência para unidade de maior complexidade.'};
