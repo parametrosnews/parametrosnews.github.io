@@ -1,202 +1,289 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NEWS2 - Parâmetros Vitais</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NEWS2 - Avaliação de Parâmetros Vitais</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f4f8;
-      margin: 0;
-      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9fafc;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding: 20px;
     }
-
     header {
-      background-color: #004aad;
-      color: white;
       text-align: center;
-      padding: 15px;
-      font-size: 22px;
-      font-weight: bold;
+      margin-bottom: 10px;
     }
-
+    header img {
+      width: 200px;
+      margin-bottom: 10px;
+    }
+    h1 {
+      color: #003366;
+      margin-bottom: 10px;
+    }
     .container {
       display: flex;
-      justify-content: space-between;
+      gap: 20px;
+      align-items: flex-start;
+      width: 100%;
+      max-width: 1000px;
+      justify-content: center;
       flex-wrap: wrap;
-      padding: 20px;
     }
-
-    .form-section, .table-section {
-      background-color: white;
+    form {
+      background: white;
+      padding: 20px;
       border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-      width: 48%;
-      min-width: 320px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      max-width: 400px;
+      width: 100%;
+      box-sizing: border-box;
     }
-
-    h2 {
-      text-align: center;
-      color: #004aad;
-      font-size: 20px;
-      margin-bottom: 15px;
-    }
-
     label {
       display: block;
-      margin: 10px 0 5px;
-      font-weight: bold;
+      margin-top: 12px;
+      color: #003366;
     }
-
     input {
       width: 100%;
       padding: 8px;
+      margin-top: 4px;
       border: 1px solid #ccc;
       border-radius: 6px;
-      font-size: 16px;
+      box-sizing: border-box;
     }
-
     button {
-      margin-top: 15px;
-      padding: 10px 20px;
+      margin-top: 16px;
+      width: 48%;
+      padding: 10px;
       border: none;
       border-radius: 6px;
       cursor: pointer;
-      font-size: 16px;
-    }
-
-    .btn-primary {
-      background-color: #004aad;
+      font-weight: bold;
       color: white;
     }
-
-    .btn-secondary {
-      background-color: #ccc;
-      color: black;
-      margin-left: 10px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 14px;
-    }
-
-    th, td {
-      border: 1px solid #ddd;
-      padding: 8px;
+    #calcular { background-color: #0056b3; }
+    #limpar { background-color: #666; }
+    #resultado {
+      margin-top: 20px;
+      background: #fff;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
       text-align: center;
     }
+    .baixo { color: green; font-weight: bold; }
+    .moderado { color: orange; font-weight: bold; }
+    .alto { color: red; font-weight: bold; }
+    .elevado { color: darkred; font-weight: bold; }
 
+    /* Table matches original look */
+    table {
+      background: white;
+      border-collapse: collapse;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      overflow: hidden;
+      width: 520px;
+      font-size: 14px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+      background: #fff;
+    }
     th {
-      background-color: #004aad;
+      background-color: #003366;
       color: white;
+      font-weight: bold;
+    }
+    /* Responsive: on small screens stack */
+    @media (max-width: 900px) {
+      .container { flex-direction: column; align-items: stretch; }
+      table, form { width: 100%; max-width: none; }
     }
 
     footer {
+      margin-top: 30px;
+      font-size: 0.85em;
+      color: #444;
       text-align: center;
-      background-color: #004aad;
-      color: white;
-      padding: 12px;
-      font-size: 14px;
-      margin-top: 20px;
+      line-height: 1.4em;
     }
-
-    @media (max-width: 800px) {
-      .container {
-        flex-direction: column;
-        align-items: center;
-      }
-      .form-section, .table-section {
-        width: 100%;
-      }
-    }
+    footer strong { color: #003366; }
   </style>
 </head>
 <body>
-  <header>NEWS2 - Parâmetros Vitais</header>
+  <header>
+    <img src="logo_fas.png" alt="Logo FAS" />
+  </header>
+
+  <h1>NEWS2 - Parâmetros Vitais</h1>
 
   <div class="container">
-    <div class="form-section">
-      <h2>Preencha os Parâmetros</h2>
-      <label for="fr">Frequência Respiratória (irpm)</label>
-      <input type="number" id="fr" placeholder="Ex: 18">
+    <form id="formNews2">
+      <label>Frequência Respiratória (irpm)</label>
+      <input type="number" id="fr" required min="0" max="60" placeholder="ex: 16">
 
-      <label for="spo2">SpO₂ (%)</label>
-      <input type="number" id="spo2" placeholder="Ex: 97">
+      <label>SpO₂ (%)</label>
+      <input type="number" id="spo2" required min="50" max="100" placeholder="ex: 97">
 
-      <label for="pas">Pressão Sistólica (mmHg)</label>
-      <input type="number" id="pas" placeholder="Ex: 120">
+      <label>Pressão Sistólica (mmHg)</label>
+      <input type="number" id="pas" required min="30" max="300" placeholder="ex: 120">
 
-      <label for="fc">Frequência Cardíaca (bpm)</label>
-      <input type="number" id="fc" placeholder="Ex: 80">
+      <label>Frequência Cardíaca (bpm)</label>
+      <input type="number" id="fc" required min="20" max="220" placeholder="ex: 80">
 
-      <label for="temp">Temperatura (°C)</label>
-      <input type="number" id="temp" placeholder="Ex: 36.5">
+      <label>Temperatura (°C)</label>
+      <input type="number" step="0.1" id="temp" required min="30" max="45" placeholder="ex: 36.6">
 
-      <button class="btn-primary">Calcular</button>
-      <button class="btn-secondary" type="reset">Limpar</button>
-    </div>
+      <div style="display: flex; justify-content: space-between;">
+        <button type="button" id="calcular">Calcular</button>
+        <button type="reset" id="limpar">Limpar</button>
+      </div>
 
-    <div class="table-section">
-      <h2>Tabela de Pontuação NEWS2</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Parâmetro</th>
-            <th>3 Pontos</th>
-            <th>2 Pontos</th>
-            <th>1 Ponto</th>
-            <th>0 Pontos</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>FR (irpm)</td>
-            <td>≤8</td>
-            <td>9–11</td>
-            <td>21–24</td>
-            <td>12–20</td>
-          </tr>
-          <tr>
-            <td>SpO₂ (%)</td>
-            <td>≤91</td>
-            <td>92–93</td>
-            <td>94–95</td>
-            <td>≥96</td>
-          </tr>
-          <tr>
-            <td>PAS (mmHg)</td>
-            <td>≤90</td>
-            <td>91–100</td>
-            <td>101–110</td>
-            <td>111–219</td>
-          </tr>
-          <tr>
-            <td>FC (bpm)</td>
-            <td>≤40 / ≥131</td>
-            <td>111–130</td>
-            <td>91–110</td>
-            <td>51–90</td>
-          </tr>
-          <tr>
-            <td>Temperatura (°C)</td>
-            <td>≤35</td>
-            <td>35.1–36</td>
-            <td>38.1–39</td>
-            <td>36.1–38</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+      <div id="resultado"></div>
+    </form>
+
+    <table aria-label="Tabela de pontos NEWS2">
+      <thead>
+        <tr><th>Parâmetro</th><th>Faixa</th><th>Pontuação</th></tr>
+      </thead>
+      <tbody>
+        <!-- Frequência Respiratória -->
+        <tr><td rowspan="5">FR (irpm)</td><td>≤ 8</td><td>3</td></tr>
+        <tr><td>9–11</td><td>1</td></tr>
+        <tr><td>12–20</td><td>0</td></tr>
+        <tr><td>21–24</td><td>2</td></tr>
+        <tr><td>≥ 25</td><td>3</td></tr>
+
+        <!-- SpO2 -->
+        <tr><td rowspan="4">SpO₂ (%)</td><td>≤ 91</td><td>3</td></tr>
+        <tr><td>92–93</td><td>2</td></tr>
+        <tr><td>94–95</td><td>1</td></tr>
+        <tr><td>≥ 96</td><td>0</td></tr>
+
+        <!-- Pressão Sistólica -->
+        <tr><td rowspan="5">Pressão Sistólica (mmHg)</td><td>≤ 90</td><td>3</td></tr>
+        <tr><td>91–100</td><td>2</td></tr>
+        <tr><td>101–110</td><td>1</td></tr>
+        <tr><td>111–219</td><td>0</td></tr>
+        <tr><td>≥ 220</td><td>3</td></tr>
+
+        <!-- Temperatura -->
+        <tr><td rowspan="5">Temperatura (°C)</td><td>≤ 35</td><td>3</td></tr>
+        <tr><td>35.1–36.0</td><td>1</td></tr>
+        <tr><td>36.1–38.0</td><td>0</td></tr>
+        <tr><td>38.1–39.0</td><td>1</td></tr>
+        <tr><td>≥ 39.1</td><td>2</td></tr>
+
+        <!-- Frequência Cardíaca -->
+        <tr><td rowspan="6">Frequência Cardíaca (bpm)</td><td>≤ 40</td><td>3</td></tr>
+        <tr><td>41–50</td><td>1</td></tr>
+        <tr><td>51–90</td><td>0</td></tr>
+        <tr><td>91–110</td><td>1</td></tr>
+        <tr><td>111–130</td><td>2</td></tr>
+        <tr><td>≥ 131</td><td>3</td></tr>
+      </tbody>
+    </table>
   </div>
 
   <footer>
-    Desenvolvido por: <b>Silas Barros Fernandes</b> — Técnico de Enfermagem.<br>
-    Setor: Ortopedia | Enfermeiros: <b>Fábio Generoso</b> e <b>Ísis Rocha</b>
+    <p><strong>Desenvolvido por:</strong> Silas Barros Fernandes — Técnico de Enfermagem</p>
+    <p><strong>Setor:</strong> Ortopedia</p>
+    <p><strong>Enfermeiros Responsáveis:</strong> Fábio Generoso e Ísis Rocha</p>
+    <p><strong>Centro de Estudos e Pesquisas Científicas Francisco Antônio de Salles</strong></p>
   </footer>
+
+  <script>
+    function pontuarFR(fr) {
+      if (fr <= 8) return 3;
+      if (fr >= 9 && fr <= 11) return 1;
+      if (fr >= 12 && fr <= 20) return 0;
+      if (fr >= 21 && fr <= 24) return 2;
+      if (fr >= 25) return 3;
+      return 0;
+    }
+
+    function pontuarSpO2(spo2) {
+      if (spo2 <= 91) return 3;
+      if (spo2 >= 92 && spo2 <= 93) return 2;
+      if (spo2 >= 94 && spo2 <= 95) return 1;
+      if (spo2 >= 96) return 0;
+      return 0;
+    }
+
+    function pontuarPAS(pas) {
+      if (pas <= 90) return 3;
+      if (pas >= 91 && pas <= 100) return 2;
+      if (pas >= 101 && pas <= 110) return 1;
+      if (pas >= 111 && pas <= 219) return 0;
+      if (pas >= 220) return 3;
+      return 0;
+    }
+
+    function pontuarFC(fc) {
+      if (fc <= 40) return 3;
+      if (fc >= 41 && fc <= 50) return 1;
+      if (fc >= 51 && fc <= 90) return 0;
+      if (fc >= 91 && fc <= 110) return 1;
+      if (fc >= 111 && fc <= 130) return 2;
+      if (fc >= 131) return 3;
+      return 0;
+    }
+
+    function pontuarTemp(temp) {
+      if (temp <= 35) return 3;
+      if (temp > 35 && temp <= 36) return 1;
+      if (temp > 36 && temp <= 38) return 0;
+      if (temp > 38 && temp <= 39) return 1;
+      if (temp > 39) return 2;
+      return 0;
+    }
+
+    function interpretacao(score) {
+      if (score === 0) return {nivel: 'Baixo Risco', classe: 'baixo', acao: 'Continuar com monitoramento periódico.'};
+      if (score >= 1 && score <= 4) return {nivel: 'Risco Moderado', classe: 'moderado', acao: 'Informar ao enfermeiro e aumentar a frequência de monitoramento.'};
+      if (score >= 5 && score <= 6) return {nivel: 'Risco Alto', classe: 'alto', acao: 'Avisar médico, monitorar de perto e avaliar possíveis intervenções.'};
+      if (score >= 7) return {nivel: 'Risco Elevado', classe: 'elevado', acao: 'Acionar equipe médica imediata, possível transferência para unidade de maior complexidade.'};
+      return {nivel: 'Desconhecido', classe: '', acao: ''};
+    }
+
+    document.getElementById('calcular').addEventListener('click', () => {
+      const fr = parseFloat(document.getElementById('fr').value);
+      const spo2 = parseFloat(document.getElementById('spo2').value);
+      const pas = parseFloat(document.getElementById('pas').value);
+      const fc = parseFloat(document.getElementById('fc').value);
+      const temp = parseFloat(document.getElementById('temp').value);
+
+      if ([fr, spo2, pas, fc, temp].some(v => isNaN(v))) {
+        alert('Preencha todos os campos.');
+        return;
+      }
+
+      const score = pontuarFR(fr) + pontuarSpO2(spo2) + pontuarPAS(pas) + pontuarFC(fc) + pontuarTemp(temp);
+      const resultado = interpretacao(score);
+
+      document.getElementById('resultado').innerHTML = `
+        <h3 class="${resultado.classe}">Pontuação Total: ${score}</h3>
+        <p><strong>${resultado.nivel}</strong></p>
+        <p>${resultado.acao}</p>
+      `;
+    });
+
+    document.getElementById('limpar').addEventListener('click', () => {
+      document.getElementById('resultado').innerHTML = '';
+    });
+  </script>
 </body>
 </html>
+
 
